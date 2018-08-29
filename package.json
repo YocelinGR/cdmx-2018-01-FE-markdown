@@ -1,0 +1,14 @@
+{
+  "name": "cdmx-2018-01-FE-markdown",
+  "version": "1.0.0",
+  "description": "mardown urls state analizaer",
+  "main": "index.js",
+  "repository": "https://github.com/YocelinGR/cdmx-2018-01-FE-markdown.git",
+  "author": "YocelinGRomero <garcia_romero.y@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "htmlhint": "^0.9.13",
+    "jest": "^23.5.0"
+  }
+}
