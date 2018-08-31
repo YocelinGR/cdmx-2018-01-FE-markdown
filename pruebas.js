@@ -37,24 +37,35 @@ const separeteLines = (stringData) => {
 	let documentURL = [];
 	let lineWithUrl = '';
 	let aux = '';
+	let aux2 = '';
 	console.log(typeof(lines[0]));
 	for (let i=0; i<lines.length;i++){
-		lineWithUrl = lines[i].match(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
+		lineWithUrl = lines[i].match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
 		if(lineWithUrl == null){
 			console.log('Error: No hay urls en esta linea');
 		} else {
 			aux = lineWithUrl.toString();
-			documentURL.push(aux);
+			if(aux[aux.length-1] == ')'){
+				aux2 = aux.slice(0, -1);
+				documentURL.push(aux2);
+			} else if (aux[aux.length-2] == ')') {
+				aux2 = aux.slice(0, -2);
+				documentURL.push(aux2);
+			}
+			else {
+				documentURL.push(aux);
+			}
 		}
 		lineWithUrl = '';
 		aux = '';
+		aux2 = '';
 	}
 	console.log(documentURL);
 	httpPetitions(documentURL);
 };
 const goInDocument = (err, data) => {
 	if(err) {
-		console.log(`Archivo no encontrado. Error: ${error}`);
+		console.log(`Archivo no encontrado. Error: ${err}`);
 	} else {
 		let stringData = data;
 		separeteLines(stringData);
