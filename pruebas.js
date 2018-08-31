@@ -7,13 +7,13 @@ const fetchRequest = (url) => {
 		.then(res => {
 			if (res.status === 404) {
 				return Promise.resolve({
-					// url: url,
+					url: url,
 					status: 'Error, url rota'
 				});
 			}
 			else { 
 				return Promise.resolve({
-					// url: url,
+					url: url,
 					status: 'Ok, url activa'
 				});
 			}
