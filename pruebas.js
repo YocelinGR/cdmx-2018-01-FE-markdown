@@ -1,36 +1,63 @@
 const fs = require('fs'); // Accede al CRUD de archivos desde node.js
-const http = require('http');
-const path = require('path'); // Modulo para la manipulación y transformación de rutas de archivos. 
+const fetch = require('node-fetch');
+// import 'whatwg-fetch'
 
-/* fs.readFile('README.md', 'utf-8',(error, data) => {
-	if(error) {
-		console.log(`Error ${error}`);
+const fetchRequest = (url) => {
+	fetch(url)
+		.then(res => {
+			if (res.status === 404) {
+				return Promise.resolve({
+					// url: url,
+					status: 'Error, url rota'
+				});
+			}
+			else { 
+				return Promise.resolve({
+					// url: url,
+					status: 'Ok, url activa'
+				});
+			}
+		})
+		.then(post => {
+			console.log(post);
+		})
+		.catch(error => {
+			console.log('Error', error);
+		});
+};
+const httpPetitions = (array) => {
+	let peticiones = [];
+	for (let i=0; i<array.length; i++) {
+		peticiones[i] = fetchRequest(array[i]);
+	}
+	console.log(peticiones);
+};
+const separeteLines = (stringData) => {
+	let lines = stringData.split('\n');
+	let documentURL = [];
+	let lineWithUrl = '';
+	let aux = '';
+	console.log(typeof(lines[0]));
+	for (let i=0; i<lines.length;i++){
+		lineWithUrl = lines[i].match(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
+		if(lineWithUrl == null){
+			console.log('Error: No hay urls en esta linea');
+		} else {
+			aux = lineWithUrl.toString();
+			documentURL.push(aux);
+		}
+		lineWithUrl = '';
+		aux = '';
+	}
+	console.log(documentURL);
+	httpPetitions(documentURL);
+};
+const goInDocument = (err, data) => {
+	if(err) {
+		console.log(`Archivo no encontrado. Error: ${error}`);
 	} else {
 		let stringData = data;
-		console.log(typeof(data));
-		console.log(stringData);
+		separeteLines(stringData);
 	}
-}); */
-
-var parseDirectory = function (startPath) {
-	fs.readdir(startPath, function (err, files) {
-	  for(var i = 0; i < files.length; i++) {
-		checkFile(startPath + '/' + files[i]);
-	  }
-	});
-  };
-  
-  var checkFile = function (path) {
-	fs.stat(path, function (err, stats) {
-	  if (stats.isFile()) {
-		console.log(path + ' is a file.');
-	  }
-	  else if (stats.isDirectory()) {
-		console.log(path + ' is a directory.');
-		parseDirectory(path);
-	  }
-	});
-  };
-  
-  
-  parseDirectory('C:/Users/YOCELIN/Documents/Laboratoria/javascript');
+};
+fs.readFile('README.md', 'utf-8', goInDocument);
