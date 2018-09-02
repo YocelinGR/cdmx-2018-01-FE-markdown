@@ -3,20 +3,22 @@ const fetch = require('node-fetch'); // Requerir fetch para peticiones a urls
 
 // Realiza las peticiones fetch a las urls para comprobar su estado
 const fetchRequest = (url) => {
+	let urlsArray = []; 
 	fetch(url)
 		.then(res => {
 			if (res.status === 404) {
-				return Promise.resolve({ // Retorna objeto con error 
+				urlsArray.push({ // Retorna objeto con error 
 					url: url,
 					status: 'Error, url rota'
 				});
 			}
 			else { 
-				return Promise.resolve({ // Retorna objeto con resp exitosa
+				urlsArray.push({ // Retorna objeto con resp exitosa
 					url: url,
 					status: 'Ok, url activa'
 				});
 			}
+			return urlsArray;
 		})
 		.then(post => { 
 			console.log(post);
@@ -31,7 +33,6 @@ const httpPetitions = (array) => {
 	for (let i=0; i<array.length; i++) {
 		peticiones[i] = fetchRequest(array[i]);
 	}
-	console.log(peticiones);
 };
 // Separa linea por linea del doc .md y busca concidencias con urls
 const separeteLines = (stringData) => {
@@ -40,11 +41,9 @@ const separeteLines = (stringData) => {
 	let lineWithUrl = '';
 	let aux = '';
 	let aux2 = '';
-	console.log(typeof(lines[0]));
 	for (let i=0; i<lines.length;i++){
 		lineWithUrl = lines[i].match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
 		if(lineWithUrl == null){
-			console.log('Error: No hay urls en esta linea');
 		} else {
 			aux = lineWithUrl.toString();
 			if(aux[aux.length-1] == ')'){
@@ -62,7 +61,6 @@ const separeteLines = (stringData) => {
 		aux = '';
 		aux2 = '';
 	}
-	console.log(documentURL);
 	httpPetitions(documentURL);
 };
 // Abre el documento y pide analizarlo
@@ -73,11 +71,11 @@ const goInDocument = (err, data) => {
 		separeteLines(data);
 	}
 };
-// Funcion a exportar 
+// Pasa documento,función y formato a la llamada fs readfile
+fs.readFile('README.md', 'utf-8', goInDocument);
+
+/* Funcion a exportar 
 const mdLinksYGR = (path, options) => {
 	return `${path} ${options}`;
 }; 
-// Pasa documento,función y formato a la llamada fs readfile 
-fs.readFile('README2.md', 'utf-8', goInDocument);
-
-module.exports = mdLinksYGR;
+module.exports = mdLinksYGR; */
