@@ -1,30 +1,31 @@
 const fs = require('fs'); // Accede al CRUD de archivos desde node.js
-const fetch = require('node-fetch');
-// import 'whatwg-fetch'
+const fetch = require('node-fetch'); // Requerir fetch para peticiones a urls
 
+// Realiza las peticiones fetch a las urls para comprobar su estado
 const fetchRequest = (url) => {
 	fetch(url)
 		.then(res => {
 			if (res.status === 404) {
-				return Promise.resolve({
+				return Promise.resolve({ // Retorna objeto con error 
 					url: url,
 					status: 'Error, url rota'
 				});
 			}
 			else { 
-				return Promise.resolve({
+				return Promise.resolve({ // Retorna objeto con resp exitosa
 					url: url,
 					status: 'Ok, url activa'
 				});
 			}
 		})
-		.then(post => {
+		.then(post => { 
 			console.log(post);
 		})
 		.catch(error => {
 			console.log('Error', error);
 		});
 };
+// Realiza las peticiones fetch por cada url del arreglo existente
 const httpPetitions = (array) => {
 	let peticiones = [];
 	for (let i=0; i<array.length; i++) {
@@ -32,6 +33,7 @@ const httpPetitions = (array) => {
 	}
 	console.log(peticiones);
 };
+// Separa linea por linea del doc .md y busca concidencias con urls
 const separeteLines = (stringData) => {
 	let lines = stringData.split('\n');
 	let documentURL = [];
@@ -63,12 +65,19 @@ const separeteLines = (stringData) => {
 	console.log(documentURL);
 	httpPetitions(documentURL);
 };
+// Abre el documento y pide analizarlo
 const goInDocument = (err, data) => {
 	if(err) {
 		console.log(`Archivo no encontrado. Error: ${err}`);
 	} else {
-		let stringData = data;
-		separeteLines(stringData);
+		separeteLines(data);
 	}
 };
-fs.readFile('README.md', 'utf-8', goInDocument);
+// Funcion a exportar 
+const mdLinksYGR = (path, options) => {
+	return `${path} ${options}`;
+}; 
+// Pasa documento,función y formato a la llamada fs readfile 
+fs.readFile('README2.md', 'utf-8', goInDocument);
+
+module.exports = mdLinksYGR;

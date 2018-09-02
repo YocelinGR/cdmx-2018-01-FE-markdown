@@ -1,0 +1,1 @@
+const mdLinkYGR = require('./app.js')
