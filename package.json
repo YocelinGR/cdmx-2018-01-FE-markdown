@@ -1,5 +1,5 @@
 {
-    "name": "cdmx-2018-01-FE-markdown",
+    "name": "node-mdlinks",
     "version": "1.0.6",
     "description": "mardown urls state analizaer",
     "main": "index.js",
@@ -11,6 +11,9 @@
       "htmlhint": "^0.9.13",
       "jest": "^23.5.0"
     },
+    "bin": {
+      "mdLinks": "./cli.js"
+    },
     "dependencies": {
       "countline": "^1.0.0",
       "es6-promise": "^4.2.4",
@@ -20,8 +23,7 @@
       "whatwg-fetch": "^2.0.4"
     },
     "scripts": {
-      "eslint": "eslint --ext .js lib/ test/",
-      "pretest": "npm run eslint",
-      "test": "jest --coverage"
+      "test": "jest --coverage",
+      "eslint": "eslint --ext .js lib/ test/"
     }
 }
