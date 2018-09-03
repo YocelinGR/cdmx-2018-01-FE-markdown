@@ -4,6 +4,10 @@ a la funcion mdLinks que se encargará de ejecutar todos los procesos */
 'use strict';
 const mdLinks = require('./lib/mdLinks.js');
 
+const mdLinks = (path, options) => {
+    console.log(path);
+    console.log(options);
+}
 module.exports = {
 	mdLinks : mdLinks
 };
