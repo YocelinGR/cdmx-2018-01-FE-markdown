@@ -1,12 +1,20 @@
 #!/usr/bin/env node
-const argv = require('yargs')
-	.usage('Find the markdown´s urls and their state')
-	.example('https://coding.pstodulka.com/2014/10/22/node-modules-as-cli/', 'URL state: OK')
-	.alias('v', 'validate').describe('Show the urls finded in a md document')
-	.alias('s', 'stats').describe('Show the state of each url available/not available')
-	.alias('vs', 'validate stats').describe('Show metrict from de urls analisis')
-	.help('h').alias('h', 'help')
-	.argv;
+const argv = require('yargs');
+const program = require('commander');
+
+program
+	.version('1.1.2')
+	.option('-v', '--validate', 'Valida la existencia del archivo md y las URL´s en él')
+	.option('-s', '--stats', 'Muestra el estado de las URLs OK/NOT OK')
+	.option('-vs', '--validate-stats', 'Muestra analiticos sobre el archivo y sus URLs')
+	.parse(process.argv);
+	
+/* error on unknown commands
+program.on('command:*', function () {
+	console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+	process.exit(1);
+});*/
+
 const [, ...args] = process.argv;
 const path = args[0];
 const options = args[1];

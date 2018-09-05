@@ -15,7 +15,7 @@ const fetchRequest = (url) => {
 			else { 
 				urlsArray.push({ // Retorna objeto con resp exitosa
 					url: url,
-					status: 'Ok, url activa'
+					status: 'Ok, url activa'  
 				});
 			}
 			return urlsArray;

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@sendgrid/client": "^6.3.0",
+    "commander": "^2.17.1",
     "countline": "^1.0.0",
     "es6-promise": "^4.2.4",
     "express": "^4.16.3",
