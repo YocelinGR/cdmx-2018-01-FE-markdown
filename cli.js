@@ -9,13 +9,22 @@ program
 	.option('-vs', '--validate-stats', 'Muestra analiticos sobre el archivo y sus URLs')
 	.parse(process.argv);
 	
-/* error on unknown commands
-program.on('command:*', function () {
-	console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
-	process.exit(1);
-});*/
+const args = process.argv;
+const pathExe = args[0];
+const pathDoc = args[1];
+const path = args[2];
+console.log(`path ${pathExe} options ${pathDoc}`);
 
-const [, ...args] = process.argv;
-const path = args[0];
-const options = args[1];
-console.log(`path ${path} options ${args}`);
+switch(args[3]){
+case '--validate': 
+	console.log('Opcion de validar');
+	break;
+case '--stats': 
+	console.log('Opcion de validar');
+	break;
+case '--validate-stats':
+	console.log('Opcion de validar');
+	break;
+default:
+	console.log('Error');
+}

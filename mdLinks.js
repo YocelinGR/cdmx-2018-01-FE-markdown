@@ -5,7 +5,7 @@ const path = require('path');
 const resolve = require('path').resolve;
 const rp = require('fs.realpath');
 const userDoc = 'README.md';
-
+const options = 'validate';
 const ifDocument = (myRoute, userDoc) => {
 	let cont = 0;
 	for(let i=0; i<myRoute.length;i++){
@@ -106,26 +106,26 @@ const goInDocument = (err, data) => {
 		separeteLines(data);
 	}
 };
-
-var ruta = './';
-ruta = resolve(ruta);
-const myRoute = recursive(ruta, [ignoreFunc], (err, files)=> {
-	let auxMDArray = [];
-	let arrayAllFiles = files;
-	for (let i = 0; i<arrayAllFiles.length;i++){
-		if(path.extname(arrayAllFiles[i]) == '.md'){
-			auxMDArray.push(arrayAllFiles[i]);
+const mdLinks = () => {
+	var ruta = './';
+	ruta = resolve(ruta);
+	const myRoute = recursive(ruta, [ignoreFunc], (err, files)=> {
+		let auxMDArray = [];
+		let arrayAllFiles = files;
+		for (let i = 0; i<arrayAllFiles.length;i++){
+			if(path.extname(arrayAllFiles[i]) == '.md'){
+				auxMDArray.push(arrayAllFiles[i]);
+			}
 		}
-	}
-	let auxRoute = ifDocument(auxMDArray, userDoc);
-	console.log('Archivo: '+path.basename(auxRoute) +' Ruta: '+auxRoute);
-	// Pasa documento,función y formato a la llamada fs readfile
-	fs.readFile(auxRoute, 'utf-8', goInDocument);
-});
-
-
+		let auxRoute = ifDocument(auxMDArray, userDoc);
+		console.log('Archivo: '+path.basename(auxRoute) +' Ruta: '+auxRoute);
+		// Pasa documento,función y formato a la llamada fs readfile
+		fs.readFile(auxRoute, 'utf-8', goInDocument);
+	});
+};
+mdLinks();
 /* Funcion a exportar 
 const mdLinksYGR = (path, options) => {
 	return `${path} ${options}`;
-}; 
-module.exports = mdLinksYGR; */
+}; */
+module.exports = mdLinks;
