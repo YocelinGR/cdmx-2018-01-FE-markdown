@@ -1,5 +1,29 @@
 const fs = require('fs'); // Accede al CRUD de archivos desde node.js
 const fetch = require('node-fetch'); // Requerir fetch para peticiones a urls
+let recursive = require('recursive-readdir');
+const path = require('path');
+const resolve = require('path').resolve;
+const rp = require('fs.realpath');
+const userDoc = 'README.md';
+
+const ifDocument = (myRoute, userDoc) => {
+	let cont = 0;
+	for(let i=0; i<myRoute.length;i++){
+		if(path.basename(myRoute[i]) == userDoc){
+			// console.log(myRoute[i]);
+			cont++;
+			return myRoute[i];
+		}
+	}
+	if (cont ==0){
+		// console.log('El archivo '+userDoc+' no existe')
+		return `El archivo ${userDoc} no existe`;
+	}
+};
+
+const ignoreFunc = (file, stats) => {
+	return stats.isDirectory() && path.basename(file) == 'node_modules';
+};
 
 // Realiza las peticiones fetch a las urls para comprobar su estado
 const fetchRequest = (text, url) => {
@@ -17,7 +41,7 @@ const fetchRequest = (text, url) => {
 				urlsArray.push({ // Retorna objeto con resp exitosa
 					url: url,
 					status: 'Ok, url activa',
-					textto: text  
+					texto: text 
 				});
 			}
 			return urlsArray;
@@ -82,8 +106,23 @@ const goInDocument = (err, data) => {
 		separeteLines(data);
 	}
 };
-// Pasa documento,función y formato a la llamada fs readfile
-fs.readFile('../README2.md', 'utf-8', goInDocument);
+
+var ruta = './';
+ruta = resolve(ruta);
+const myRoute = recursive(ruta, [ignoreFunc], (err, files)=> {
+	let auxMDArray = [];
+	let arrayAllFiles = files;
+	for (let i = 0; i<arrayAllFiles.length;i++){
+		if(path.extname(arrayAllFiles[i]) == '.md'){
+			auxMDArray.push(arrayAllFiles[i]);
+		}
+	}
+	let auxRoute = ifDocument(auxMDArray, userDoc);
+	console.log('Archivo: '+path.basename(auxRoute) +' Ruta: '+auxRoute);
+	// Pasa documento,función y formato a la llamada fs readfile
+	fs.readFile(auxRoute, 'utf-8', goInDocument);
+});
+
 
 /* Funcion a exportar 
 const mdLinksYGR = (path, options) => {

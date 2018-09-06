@@ -18,4 +18,4 @@ program.on('command:*', function () {
 const [, ...args] = process.argv;
 const path = args[0];
 const options = args[1];
-console.log(`path ${path} options ${options}`);
+console.log(`path ${path} options ${args}`);
