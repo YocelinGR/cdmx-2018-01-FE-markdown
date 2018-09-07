@@ -26,39 +26,41 @@ const ignoreFunc = (file, stats) => {
 };
 
 // Realiza las peticiones fetch a las urls para comprobar su estado
-const fetchRequest = (text, url) => {
-	let urlsArray = []; 
-	fetch(url)
-		.then(res => {
-			if (res.status === 404) {
-				urlsArray.push({ // Retorna objeto con error 
+async function fetchRequest(text, url) {
+	let urlsArray; 
+	const respFetch = await fetch(url)
+	const respStatus = await respFetch.status
+			if (respStatus === 404) {
+				urlsArray = { // Retorna objeto con error 
 					url: url,
 					status: 'Error, url rota',
 					texto: text
-				});
+				}
 			}
 			else { 
-				urlsArray.push({ // Retorna objeto con resp exitosa
+				urlsArray = { // Retorna objeto con resp exitosa
 					url: url,
 					status: 'Ok, url activa',
 					texto: text 
-				});
+				}
 			}
-			return urlsArray;
-		})
-		.then(post => { 
-			console.log(post);
-		})
-		.catch(error => {
-			console.log('Error', error);
-		});
+
+		return urlsArray;
 };
 // Realiza las peticiones fetch por cada url del arreglo existente
-const httpPetitions = (arrayText, arrayURL) => {
-	let peticiones = [];
-	for (let i=0; i<arrayURL.length; i++) {
-		peticiones[i] = fetchRequest(arrayText[i].toString(), arrayURL[i]);
-	}
+async function httpPetitions(arrayText, arrayURL){
+	try {
+		let peticiones = [];
+		for (let i=0; i<arrayURL.length; i++) {
+			fetchRequest(arrayText[i], arrayURL[i])
+				.then((objeto) => {
+					peticiones.push(objeto);
+					//console.log(peticiones);
+					if(i == 2){
+						console.log(peticiones)}
+				})
+		}
+	} catch (e){console.log('Error')}
 };
 // Separa linea por linea del doc .md y busca concidencias con urls
 const separeteLines = (stringData) => {
