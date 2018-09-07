@@ -1,6 +1,6 @@
 {
   "name": "node-mdlinks",
-  "version": "1.0.6",
+  "version": "1.2.5",
   "description": "mardown urls state analizaer",
   "main": "index.js",
   "repository": "https://github.com/YocelinGR/cdmx-2018-01-FE-markdown.git",
