@@ -4,8 +4,10 @@ let recursive = require('recursive-readdir');
 const path = require('path');
 const resolve = require('path').resolve;
 const rp = require('fs.realpath');
+
 const userDoc = 'README.md';
 const options = 'validate';
+
 const ifDocument = (myRoute, userDoc) => {
 	let cont = 0;
 	for(let i=0; i<myRoute.length;i++){
