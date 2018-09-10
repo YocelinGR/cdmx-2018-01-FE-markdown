@@ -128,8 +128,4 @@ const mdLinks = () => {
 	});
 };
 mdLinks();
-/* Funcion a exportar 
-const mdLinksYGR = (path, options) => {
-	return `${path} ${options}`;
-}; */
 module.exports = mdLinks;

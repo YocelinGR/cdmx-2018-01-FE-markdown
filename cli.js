@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const argv = require('yargs');
 const program = require('commander');
-
+//const mdLinks = require('./mdLinks.js');
 program
 	.version('1.1.2')
 	.option('-v', '--validate', 'Valida la existencia del archivo md y las URL´s en él')
@@ -12,12 +12,14 @@ program
 const args = process.argv;
 const pathExe = args[0];
 const pathDoc = args[1];
-const path = args[2];
+const userDoc = args[2];
+const options = args[3];
 // console.log(`path ${pathExe} options ${pathDoc}`);
 
 switch(args[3]){
 case '--validate': 
 	console.log('Opcion de validar');
+	//mdLinks('README1.md','validate');
 	break;
 case '--stats': 
 	console.log('Opcion de stats');
