@@ -68,10 +68,10 @@ async function httpPetitions(arrayText, arrayURL){
 const separeteLines = (stringData) => {
 	const lines = stringData.split('\n');
 	const documentURL = [];
-	const lineWithUrl = '';
-	const aux = '';
-	const aux2 = '';
-	const auxText ='';
+	let lineWithUrl = '';
+	let aux = '';
+	let aux2 = '';
+	let auxText ='';
 	const textFromURL = [];
 	for (let i=0; i<lines.length;i++){
 		lineWithUrl = lines[i].match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
@@ -111,7 +111,7 @@ const goInDocument = (err, data) => {
 	}
 };
 const mdLinks = () => {
-	const ruta = './';
+	let ruta = './';
 	ruta = resolve(ruta);
 	const myRoute = recursive(ruta, [ignoreFunc], (err, files)=> {
 		let auxMDArray = [];
