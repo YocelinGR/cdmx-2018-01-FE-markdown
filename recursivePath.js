@@ -1,11 +1,12 @@
+/* This file is used as a practice to understand better the recursive programming */
 const fs = require('fs');
 const path = require('path');
 
-function recursiveDirectory(dir){
+const recursiveDirectory = (dir) => {
 	console.log('[+]', dir);
-	let files = fs.readdirSync(dir);
+	const files = fs.readdirSync(dir);
 	for(let file in files){
-		let nextFile = path.join(dir, files[file]);
+		const nextFile = path.join(dir, files[file]);
 		if(fs.lstatSync(nextFile).isDirectory()==true){
 			recursiveDirectory(nextFile);
 		} else {

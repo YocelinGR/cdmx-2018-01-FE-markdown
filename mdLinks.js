@@ -1,6 +1,6 @@
 const fs = require('fs'); // Accede al CRUD de archivos desde node.js
 const fetch = require('node-fetch'); // Requerir fetch para peticiones a urls
-let recursive = require('recursive-readdir');
+const recursive = require('recursive-readdir');
 const path = require('path');
 const resolve = require('path').resolve;
 const rp = require('fs.realpath');
@@ -9,7 +9,7 @@ const userDoc = 'README.md';
 const options = 'validate';
 
 const ifDocument = (myRoute, userDoc) => {
-	let cont = 0;
+	 cont = 0;
 	for(let i=0; i<myRoute.length;i++){
 		if(path.basename(myRoute[i]) == userDoc){
 			// console.log(myRoute[i]);
@@ -29,21 +29,21 @@ const ignoreFunc = (file, stats) => {
 
 // Realiza las peticiones fetch a las urls para comprobar su estado
 async function fetchRequest(text, url) {
-	let urlsArray; 
+	let urlsArray;
 	const respFetch = await fetch(url)
 	const respStatus = await respFetch.status
 			if (respStatus === 404) {
-				urlsArray = { // Retorna objeto con error 
+				urlsArray = { // Retorna objeto con error
 					url: url,
 					status: 'Error, url rota',
 					texto: text
 				}
 			}
-			else { 
+			else {
 				urlsArray = { // Retorna objeto con resp exitosa
 					url: url,
 					status: 'Ok, url activa',
-					texto: text 
+					texto: text
 				}
 			}
 
@@ -66,13 +66,13 @@ async function httpPetitions(arrayText, arrayURL){
 };
 // Separa linea por linea del doc .md y busca concidencias con urls
 const separeteLines = (stringData) => {
-	let lines = stringData.split('\n');
-	let documentURL = [];
-	let lineWithUrl = '';
-	let aux = '';
-	let aux2 = '';
-	let auxText ='';
-	let textFromURL = [];
+	const lines = stringData.split('\n');
+	const documentURL = [];
+	const lineWithUrl = '';
+	const aux = '';
+	const aux2 = '';
+	const auxText ='';
+	const textFromURL = [];
 	for (let i=0; i<lines.length;i++){
 		lineWithUrl = lines[i].match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
 		if(lineWithUrl == null){
@@ -111,7 +111,7 @@ const goInDocument = (err, data) => {
 	}
 };
 const mdLinks = () => {
-	var ruta = './';
+	const ruta = './';
 	ruta = resolve(ruta);
 	const myRoute = recursive(ruta, [ignoreFunc], (err, files)=> {
 		let auxMDArray = [];
