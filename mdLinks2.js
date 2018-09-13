@@ -22,6 +22,7 @@ const ignoreFunc = (file, stats) => {
 	return stats.isDirectory() && path.basename(file) == 'node_modules';
 };
 
+
 // Realiza las peticiones fetch a las urls para comprobar su estado
 async function fetchRequest(text, url) {
 	let urlsCompleteInfo;
