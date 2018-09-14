@@ -10,9 +10,10 @@ const options = 'validate';
 
 const compareRoutes = (fileSelectedRoute, fileSelected) => {
 	 cont = 0;
-	for(let i of fileSelectedRoute){
-		if(path.basename(i) == fileSelected){ cont++;
-			return i;
+	for(let i=0; i<fileSelectedRoute.length;i++){
+		if(path.basename(fileSelectedRoute[i]) == fileSelected){
+			cont++;
+			return fileSelectedRoute[i];
 		}
 	}
 	if (cont == 0) return `El archivo ${fileSelected} no existe`;
@@ -21,7 +22,6 @@ const compareRoutes = (fileSelectedRoute, fileSelected) => {
 const ignoreFunc = (file, stats) => {
 	return stats.isDirectory() && path.basename(file) == 'node_modules';
 };
-
 
 // Realiza las peticiones fetch a las urls para comprobar su estado
 async function fetchRequest(text, url) {
@@ -52,7 +52,9 @@ async function httpPetitions(arrayText, arrayURL){
 			fetchRequest(arrayText[i], arrayURL[i])
 				.then((objeto) => {
 					fetchPetions.push(objeto);
-					if(i == 2) console.log(fetchPetions)
+					//console.log(fetchPetions);
+					if(i == 2){
+						console.log(fetchPetions)}
 				})
 		}
 	} catch (e){console.log('Error')}
@@ -66,11 +68,11 @@ const separeteLines = (stringData) => {
 	let pureURL = '';
 	let descriptionTextURL ='';
 	const textFromURL = [];
-	for (let i of lines){
-		lineWithUrl = i.match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
+	for (let i=0; i<lines.length;i++){
+		lineWithUrl = lines[i].match(/(ftp|http|https|www):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi);
 		if(lineWithUrl == null) {}
 		else {
-			descriptionTextURL = i.match(/\[([^\]]+)]/g);
+			descriptionTextURL = lines[i].match(/\[([^\]]+)]/g);
 			if(descriptionTextURL == null) textFromURL.push('Texto sin URL');
 			else textFromURL.push(descriptionTextURL);
 			urlsToString = lineWithUrl.toString();
@@ -103,8 +105,8 @@ const mdLinks = () => {
 	const fileSelectedRoute = recursive(route, [ignoreFunc], (err, files)=> {
 		let auxMDArray = [];
 		let arrayAllFiles = files;
-		for (let i of arrayAllFiles){
-			if(path.extname(i) == '.md') auxMDArray.push(i);
+		for (let i = 0; i<arrayAllFiles.length;i++){
+			if(path.extname(arrayAllFiles[i]) == '.md') auxMDArray.push(arrayAllFiles[i]);
 		}
 		let auxRoute = compareRoutes(auxMDArray, fileSelected);
 		console.log('Archivo: '+path.basename(auxRoute) +' Ruta: '+auxRoute);
